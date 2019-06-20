@@ -20,11 +20,17 @@ def distribuicao(data_frame, label_x, label_y):
 	plt.show()
 	plt.close()
 
+def distribuicao_aprox(x_valores, y_valores, aproximacao):
+	
+	plt.style.use('ggplot')
+	plt.scatter(x_valores, y_valores, s=1.2)
+	plt.plot(aproximacao)
+	plt.show()
+	plt.close()
+
 if __name__=='__main__':
 	
-	colunas = ['Evaporation', 'Sunshine', 'WindGustDir', 'WindDir9am', \
-		'WindDir3pm', 'Cloud9am', 'Cloud3pm', 'RainToday', 'RainTomorrow']
-	data_frame = base.carregar_base(argv[1], colunas)
+	data_frame = base.carregar_base(argv[1], base.colunas)
 
 	# Escolhendo de qual cidade se trata a relação.
 	data_inf = data_frame[data_frame['Date'] >= argv[5]]
