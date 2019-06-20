@@ -43,5 +43,6 @@ def minimos_quadrados_temporal(data_frame, y_label, \
 	ffinal(coef_a, coef_b, x_valores, y_valores)
 
 if __name__=='__main__':
-	data_frame = base.carregar_base_individual(argv[1])
+	data_frame = base.carregar_base_individual(argv[1], \
+		argv[3], argv[4])
 	minimos_quadrados_temporal(data_frame, argv[2])
