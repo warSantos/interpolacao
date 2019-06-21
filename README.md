@@ -1,2 +1,1 @@
-# interpolacao
-Interpolação com mínimos quadrados
+# Ajuste linear e não linear com mínimos quadrados
