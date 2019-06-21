@@ -6,13 +6,13 @@ import numpy as np
 from sys import argv, exit
 
 # Funções para calcular a regressão linear.
-
+# Função associada ao alfa1.
 def funcao_reta_a1(valor):
 	return valor
-
+# Função associada ao alfa1.
 def funcao_reta_a2(valor):
 	return 1
-
+# Função reta arpoximada com coeficientes.
 def reta_aprox(valores_x, valores_y, coef_a1, coef_a2):
 
 	# Calculando a regressão com suporte da função ajustada.
@@ -20,13 +20,13 @@ def reta_aprox(valores_x, valores_y, coef_a1, coef_a2):
 	grafico.distribuicao_aprox(valores_x, valores_y, regressao)
 
 # Funções para calcular a aproximação parabólica.
-
+# Função associada ao alfa1.
 def parabola_a1(valor):
 	return math.pow(valor - 182, 2)
-	
+# Função associada ao alfa1.
 def parabola_a2(valor):
 	return valor
-
+# Função parabólica aproximada com coeficientes.
 def parab_aprox(valores_x, valores_y, coef_a1, coef_a2):
 	
 	res = list()
@@ -35,12 +35,28 @@ def parab_aprox(valores_x, valores_y, coef_a1, coef_a2):
 		res.append(v)
 	grafico.distribuicao_aprox(valores_x, valores_y, res)
 
+## Implemente aqui suas funções de aproximação.
+## Mantenha a ordem dos parâmetros para que o
+## a função min_quad possa acha-las e aplica-las
+## automaticamente. Siga o formato das funções acima
+## mantenha a ordem e os parâmetros iguais. Chame também a 
+## função de plotar o gráfico como nas funções de aproximação
+## já implementadas para poder ver os resultados.
+
 # Vetores com funções indexadas.
+
+## Indexe aqui suas funções. Elas seram chamadas na funcao
+## min_quad. Adicione também um comentário em frente ao indice
+## igual nas funções abaixo.
 
 # [0]: funções para cálculo com reta.
 # [1]: funções de calculo com parábola.
 funcoes = [[funcao_reta_a1, funcao_reta_a2], \
 	[parabola_a1, parabola_a2]]
+
+## Indexe aqui sua funcão aproximada com os coeficientes já 
+## calculados. Siga o exemplo das funções já indexadas que
+## foram implementadas logo acima.
 
 funcoes_aprox = [reta_aprox,\
 	parab_aprox]
