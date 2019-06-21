@@ -30,7 +30,6 @@ def minimos_quadrados_temporal(data_frame, y_label, \
 	soma_xy = 0
 	for x, y in zip(x_valores, y_valores):
 		soma_xy += x * y
-	print(soma_xy)
 	# Aplicando o quadrado em cada valor de x.
 	soma_xquad = np.sum([ x*x for x in x_valores ])
 	# Coeficiente a da função ax + b.
