@@ -16,7 +16,11 @@ def distribuicao(data_frame, label_x, label_y, gap=365):
 	plt.style.use('ggplot')
 	y_range = data_frame[label_y]
 	len_y = len(y_range)
-	x_range = range(0,len_y)
+	x_range = ''
+	if label_x == 'Date':	
+		x_range = range(0,len_y)
+	else:
+		x_range = data_frame[label_x]
 	#data_frame.plot.scatter(x=x_range, y=label_y)
 	plt.xticks(np.arange(1, len_y, step=gap))
 	plt.scatter(x_range, y_range, s=2000/len_y)

@@ -1,5 +1,6 @@
 import base
 import grafico
+import math
 import pandas as pd
 import numpy as np
 from sys import argv, exit
@@ -9,6 +10,11 @@ def quad(valor):
 
 def funcao_reta(valor):
 	return valor
+
+def parabola(valor):
+	return valor*valor()
+
+def parabola
 
 def funcao_reta_final(coef_a, coef_b, x_valores, y_valores):
 
