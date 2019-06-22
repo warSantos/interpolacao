@@ -1,6 +1,6 @@
 import base
 import grafico
-import math
+import math as mt
 import pandas as pd
 import numpy as np
 from sys import argv, exit
@@ -13,27 +13,78 @@ def funcao_reta_a1(valor):
 def funcao_reta_a2(valor):
 	return 1
 # Função reta arpoximada com coeficientes.
-def reta_aprox(valores_x, valores_y, coef_a1, coef_a2):
+def reta_aprox(valores_x, valores_y, solucao, gap):
 
 	# Calculando a regressão com suporte da função ajustada.
-	regressao = [ (coef_a1 * x + coef_a2) for x in valores_x ]
-	grafico.distribuicao_aprox(valores_x, valores_y, regressao)
+	regressao = [ (solucao[0][0] * x + solucao[1][0]) for x in valores_x ]
+	grafico.distribuicao_aprox(valores_x, valores_y, regressao, gap)
 
 # Funções para calcular a aproximação parabólica.
 # Função associada ao alfa1.
 def parabola_a1(valor):
-	return math.pow(valor - 182, 2)
+	return mt.pow(valor - 182, 2)
 # Função associada ao alfa1.
 def parabola_a2(valor):
-	return valor
+	return 1
 # Função parabólica aproximada com coeficientes.
-def parab_aprox(valores_x, valores_y, coef_a1, coef_a2):
+def parab_aprox(valores_x, valores_y, solucao, gap):
 	
 	res = list()
 	for x in valores_x:
-		v = (coef_a1 * math.pow((x - 180),2) - coef_a2)
+		v = (solucao[0][0] * mt.pow((x - 180),2) + solucao[1][0])
 		res.append(v)
-	grafico.distribuicao_aprox(valores_x, valores_y, res)
+	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+
+# Funções para calcular a aproximação parabólica inversa.
+# Função associada ao alfa1.
+def parabola_inv_a1(valor):
+	return mt.pow((190 - valor), 2)
+# Função associada ao alfa1.
+def parabola_inv_a2(valor):
+	return 1
+# Função parabólica aproximada com coeficientes.
+def parab_inv_aprox(valores_x, valores_y, solucao, gap):
+	
+	res = list()
+	for x in valores_x:
+		v = (solucao[0][0] * mt.pow((190 - x), 2) + solucao[1][0])
+		res.append(v)
+	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+
+# Funções para calcular polinômios de grau 2: ax2 + bx + c, a,b,c == alfas(1,2,3).
+def coeficiente_a(valor):
+	return mt.pow(valor, 2)
+
+def coeficiente_b(valor):
+	return valor
+
+def coeficiente_c(valor):
+	return 1
+
+# ax2 + bx + c
+def polinomio_g2(valores_x, valores_y, solucao, gap):
+	res = list()
+	for x in valores_x:
+		v = solucao[0][0] * mt.pow(x, 2) + \
+			solucao[1][0] * x + \
+			solucao[2][0]
+		res.append(v)
+	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+
+# Funções para calcular polinômios de grau 2: ax3 + bx2 + cx + d, a,b,c,d == alfas(1,2,3,4).
+def coeficiente_d(valor):
+	return mt.pow(valor, 3)
+
+# ax3 + bx2 + cx + d
+def polinomio_g3(valores_x, valores_y, solucao, gap):
+	res = list()
+	for x in valores_x:
+		v = solucao[0][0] * mt.pow(x, 3) + \
+			solucao[1][0] * mt.pow(x, 2) + \
+			solucao[2][0] * x + \
+			solucao[3][0]
+		res.append(v)
+	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
 
 ## Implemente aqui suas funções de aproximação.
 ## Mantenha a ordem dos parâmetros para que o
@@ -52,14 +103,20 @@ def parab_aprox(valores_x, valores_y, coef_a1, coef_a2):
 # [0]: funções para cálculo com reta.
 # [1]: funções de calculo com parábola.
 funcoes = [[funcao_reta_a1, funcao_reta_a2], \
-	[parabola_a1, parabola_a2]]
+	[parabola_a1, parabola_a2],
+	[parabola_inv_a1, parabola_inv_a2],
+	[coeficiente_a, coeficiente_b, coeficiente_c],
+	[coeficiente_d, coeficiente_a, coeficiente_b, coeficiente_c]]
 
 ## Indexe aqui sua funcão aproximada com os coeficientes já 
 ## calculados. Siga o exemplo das funções já indexadas que
 ## foram implementadas logo acima.
 
 funcoes_aprox = [reta_aprox,\
-	parab_aprox]
+	parab_aprox,
+	parab_inv_aprox,
+	polinomio_g2,
+	polinomio_g3]
 
 # Matriz de calculo do sistema.
 def matriz_a(valores, funcoes):
@@ -82,7 +139,7 @@ def matriz_a(valores, funcoes):
 			ma[id_f2][id_f] = ma[id_f][id_f2]
 			id_f2 += 1
 		id_f += 1
-
+	print(ma)
 	return ma
 
 # Vetor B de cálculo do sistema.
@@ -97,7 +154,7 @@ def vetor_b(valores_x, valores_y, funcoes):
 		for v, y in zip(valores_x, valores_y):
 			vb[id_f] += y * g(v)
 		id_f += 1
-
+	print(vb)
 	return vb
 
 def preproc(data_frame, y_label, x_label='Date'):
@@ -106,7 +163,7 @@ def preproc(data_frame, y_label, x_label='Date'):
 	valores_x = np.array(range(1, numero_valores+1), dtype=float)
 	return valores_x, valores_y
 
-def min_quad(data_frame, y_label, aprox_id):
+def min_quad(data_frame, y_label, aprox_id, gap):
 
 	valores_x, valores_y = preproc(data_frame, y_label)
 	ma = matriz_a(valores_x, funcoes[aprox_id])
@@ -115,8 +172,8 @@ def min_quad(data_frame, y_label, aprox_id):
 	solucao = np.linalg.solve(ma, vb)
 	print("SOLUÇÃO: ", solucao)
 	ffinal = funcoes_aprox[aprox_id]
-	ffinal(valores_x, valores_y, solucao[0], solucao[1])
+	ffinal(valores_x, valores_y, solucao, gap)
 
 if __name__=='__main__':
-	data_frame = base.carregar_base_individual(argv[1])
-	min_quad(data_frame, argv[2], int(argv[3]))
+	data_frame = base.carregar_base_individual(argv[1], argv[4], argv[5])
+	min_quad(data_frame, argv[2], int(argv[3]), int(argv[6]))

@@ -1,0 +1,2 @@
+comandos:
+	Executar o algoritmo min_quad

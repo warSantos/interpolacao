@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sys import argv, exit
 
-def distribuicao(data_frame, label_x, label_y, gap=365):
+def distribuicao(data_frame, label_x, label_y, gap=364):
 	plt.style.use('ggplot')
 	y_range = data_frame[label_y]
 	len_y = len(y_range)
@@ -27,11 +27,15 @@ def distribuicao(data_frame, label_x, label_y, gap=365):
 	plt.show()
 	plt.close()
 
-def distribuicao_aprox(x_valores, y_valores, aproximacao):
+def distribuicao_aprox(x_valores, y_valores, aproximacao, gap=30):
 	
 	plt.style.use('ggplot')
-	plt.scatter(x_valores, y_valores, s=1.2)
-	plt.plot(aproximacao)
+	plt.xlabel('Período em dias')
+	plt.ylabel('Temperatura em C°')
+	plt.xticks(np.arange(1, len(x_valores), step=gap))
+	plt.scatter(x_valores, y_valores, s=1.8, label="Distrib.")
+	plt.plot(aproximacao, 'blue', label="Aprox.")
+	plt.legend(loc='best')
 	plt.show()
 	plt.close()
 

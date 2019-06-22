@@ -1,0 +1,6 @@
+# Resultados:
+	Para o período de 2010-01-01 - 2011-01-01 conseguimos aproximações ótimas para AliceSprings
+	e Canberra tanto para temperatura mínima quanto máxima.
+
+	Para o período de 2011-01-01 - 2011-12-31 conseguimos aproximações ótimas para Darwin tanto
+	para temperatura mínima quanto para máxima.
