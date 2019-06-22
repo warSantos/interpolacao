@@ -1,0 +1,12 @@
+# Resultados:
+	Para o período de 2010-01-01 - 2011-01-01 conseguimos aproximações ótimas para AliceSprings
+	e Canberra tanto para temperatura mínima quanto máxima.
+
+	Para o período de 2011-01-01 - 2011-12-31 conseguimos aproximações ótimas para Darwin tanto
+	para temperatura mínima quanto para máxima.
+
+# Casos para discussão nos Resultados.
+	# Citar a custo e eficiência das curvas obtidas com as parabolas iniciais em relação a sua complexidade.
+	# Citar o custo e eficiência das curvas com funções polinomias em relação as parabolas.
+	# Citar o custo e eficiência da curva cúbica em relação as demais (Interpolar períodos maiores e mal definidos,
+	com maior precisão).
