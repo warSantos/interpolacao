@@ -167,7 +167,7 @@ def residuo(valores_y, aprox):
 	num = 0
 	den = 0
 	media_y = sttc.median(valores_y)
-	for a, y in zip(aprox, valores_y):
+	for y, a in zip(valores_y, aprox):
 		num += mt.pow((a - media_y), 2)
 		den += mt.pow((y - media_y), 2)
 	return mt.sqrt(num/den)
