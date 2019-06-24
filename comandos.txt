@@ -1,2 +1,4 @@
 comandos:
-	Executar o algoritmo min_quad
+	180 e 30 no fim dos comandos corresponde ao Espaço entre labels no eixo x
+	(Distribuição) Executar o algoritmo grafico: python3 grafico.py data/weatherAUS.csv Canberra Date MaxTemp 2009-01-01 2016-01-01 180
+	Executar o algoritmo min_quad: python3 min_quad.py csv/Darwin.csv MaxTemp 4 2012-01-01 2013-12-31 30

@@ -27,16 +27,18 @@ def distribuicao(data_frame, label_x, label_y, gap=364):
 	plt.show()
 	plt.close()
 
-def distribuicao_aprox(x_valores, y_valores, aproximacao, gap=30):
+def distribuicao_aprox(x_valores, y_valores, aproximacao, gap=30,\
+	grafico='grafico.pdf'):
 	
 	plt.style.use('ggplot')
 	plt.xlabel('Período em dias')
 	plt.ylabel('Temperatura em C°')
 	plt.xticks(np.arange(1, len(x_valores), step=gap))
-	plt.scatter(x_valores, y_valores, s=1.8, label="Distrib.")
+	plt.scatter(x_valores, y_valores, s=2.8, label="Distrib.")
 	plt.plot(aproximacao, 'blue', label="Aprox.")
 	plt.legend(loc='best')
-	plt.show()
+	#plt.show()
+	plt.savefig(grafico, format='pdf')
 	plt.close()
 
 if __name__=='__main__':

@@ -1,5 +1,5 @@
 import base
-import grafico
+import grafico as gfc
 import math as mt
 import pandas as pd
 import numpy as np
@@ -13,11 +13,11 @@ def funcao_reta_a1(valor):
 def funcao_reta_a2(valor):
 	return 1
 # Função reta arpoximada com coeficientes.
-def reta_aprox(valores_x, valores_y, solucao, gap):
+def reta_aprox(valores_x, valores_y, solucao, gap, grafico):
 
 	# Calculando a regressão com suporte da função ajustada.
 	regressao = [ (solucao[0][0] * x + solucao[1][0]) for x in valores_x ]
-	grafico.distribuicao_aprox(valores_x, valores_y, regressao, gap)
+	gfc.distribuicao_aprox(valores_x, valores_y, regressao, gap, grafico)
 
 # Funções para calcular a aproximação parabólica.
 # Função associada ao alfa1.
@@ -27,13 +27,13 @@ def parabola_a1(valor):
 def parabola_a2(valor):
 	return 1
 # Função parabólica aproximada com coeficientes.
-def parab_aprox(valores_x, valores_y, solucao, gap):
+def parab_aprox(valores_x, valores_y, solucao, gap, grafico):
 	
 	res = list()
 	for x in valores_x:
 		v = (solucao[0][0] * mt.pow((x - 180),2) + solucao[1][0])
 		res.append(v)
-	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
 
 # Funções para calcular a aproximação parabólica inversa.
 # Função associada ao alfa1.
@@ -43,13 +43,13 @@ def parabola_inv_a1(valor):
 def parabola_inv_a2(valor):
 	return 1
 # Função parabólica aproximada com coeficientes.
-def parab_inv_aprox(valores_x, valores_y, solucao, gap):
+def parab_inv_aprox(valores_x, valores_y, solucao, gap, grafico):
 	
 	res = list()
 	for x in valores_x:
 		v = (solucao[0][0] * mt.pow((190 - x), 2) + solucao[1][0])
 		res.append(v)
-	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
 
 # Funções para calcular polinômios de grau 2: ax2 + bx + c, a,b,c == alfas(1,2,3).
 def coeficiente_a(valor):
@@ -62,21 +62,21 @@ def coeficiente_c(valor):
 	return 1
 
 # ax2 + bx + c
-def polinomio_g2(valores_x, valores_y, solucao, gap):
+def polinomio_g2(valores_x, valores_y, solucao, gap, grafico):
 	res = list()
 	for x in valores_x:
 		v = solucao[0][0] * mt.pow(x, 2) + \
 			solucao[1][0] * x + \
 			solucao[2][0]
 		res.append(v)
-	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
 
 # Funções para calcular polinômios de grau 2: ax3 + bx2 + cx + d, a,b,c,d == alfas(1,2,3,4).
 def coeficiente_d(valor):
 	return mt.pow(valor, 3)
 
 # ax3 + bx2 + cx + d
-def polinomio_g3(valores_x, valores_y, solucao, gap):
+def polinomio_g3(valores_x, valores_y, solucao, gap, grafico):
 	res = list()
 	for x in valores_x:
 		v = solucao[0][0] * mt.pow(x, 3) + \
@@ -84,7 +84,7 @@ def polinomio_g3(valores_x, valores_y, solucao, gap):
 			solucao[2][0] * x + \
 			solucao[3][0]
 		res.append(v)
-	grafico.distribuicao_aprox(valores_x, valores_y, res, gap)
+	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
 
 ## Implemente aqui suas funções de aproximação.
 ## Mantenha a ordem dos parâmetros para que o
@@ -163,7 +163,7 @@ def preproc(data_frame, y_label, x_label='Date'):
 	valores_x = np.array(range(1, numero_valores+1), dtype=float)
 	return valores_x, valores_y
 
-def min_quad(data_frame, y_label, aprox_id, gap):
+def min_quad(data_frame, y_label, aprox_id, gap, grafico):
 
 	valores_x, valores_y = preproc(data_frame, y_label)
 	ma = matriz_a(valores_x, funcoes[aprox_id])
@@ -172,8 +172,10 @@ def min_quad(data_frame, y_label, aprox_id, gap):
 	solucao = np.linalg.solve(ma, vb)
 	print("SOLUÇÃO: ", solucao)
 	ffinal = funcoes_aprox[aprox_id]
-	ffinal(valores_x, valores_y, solucao, gap)
+	ffinal(valores_x, valores_y, solucao, gap, grafico)
 
 if __name__=='__main__':
 	data_frame = base.carregar_base_individual(argv[1], argv[4], argv[5])
-	min_quad(data_frame, argv[2], int(argv[3]), int(argv[6]))
+	grafico = 'resultados/'+argv[1].split('/')[-1].replace('.csv','')+\
+		'_'+argv[2]+'_'+argv[3]+'.pdf'
+	min_quad(data_frame, argv[2], int(argv[3]), int(argv[6]), grafico)
