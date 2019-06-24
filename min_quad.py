@@ -3,6 +3,7 @@ import grafico as gfc
 import math as mt
 import pandas as pd
 import numpy as np
+import statistics as sttc
 from sys import argv, exit
 
 # Funções para calcular a regressão linear.
@@ -18,6 +19,7 @@ def reta_aprox(valores_x, valores_y, solucao, gap, grafico):
 	# Calculando a regressão com suporte da função ajustada.
 	regressao = [ (solucao[0][0] * x + solucao[1][0]) for x in valores_x ]
 	gfc.distribuicao_aprox(valores_x, valores_y, regressao, gap, grafico)
+	return regressao
 
 # Funções para calcular a aproximação parabólica.
 # Função associada ao alfa1.
@@ -34,6 +36,7 @@ def parab_aprox(valores_x, valores_y, solucao, gap, grafico):
 		v = (solucao[0][0] * mt.pow((x - 180),2) + solucao[1][0])
 		res.append(v)
 	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
+	return res
 
 # Funções para calcular a aproximação parabólica inversa.
 # Função associada ao alfa1.
@@ -50,6 +53,7 @@ def parab_inv_aprox(valores_x, valores_y, solucao, gap, grafico):
 		v = (solucao[0][0] * mt.pow((190 - x), 2) + solucao[1][0])
 		res.append(v)
 	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
+	return res
 
 # Funções para calcular polinômios de grau 2: ax2 + bx + c, a,b,c == alfas(1,2,3).
 def coeficiente_a(valor):
@@ -70,6 +74,7 @@ def polinomio_g2(valores_x, valores_y, solucao, gap, grafico):
 			solucao[2][0]
 		res.append(v)
 	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
+	return res
 
 # Funções para calcular polinômios de grau 2: ax3 + bx2 + cx + d, a,b,c,d == alfas(1,2,3,4).
 def coeficiente_d(valor):
@@ -85,6 +90,7 @@ def polinomio_g3(valores_x, valores_y, solucao, gap, grafico):
 			solucao[3][0]
 		res.append(v)
 	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
+	return res
 
 ## Implemente aqui suas funções de aproximação.
 ## Mantenha a ordem dos parâmetros para que o
@@ -157,6 +163,15 @@ def vetor_b(valores_x, valores_y, funcoes):
 	print(vb)
 	return vb
 
+def residuo(valores_y, aprox):
+	num = 0
+	den = 0
+	media_y = sttc.median(valores_y)
+	for a, y in zip(aprox, valores_y):
+		num += mt.pow((a - media_y), 2)
+		den += mt.pow((y - media_y), 2)
+	return mt.sqrt(num/den)
+
 def preproc(data_frame, y_label, x_label='Date'):
 	valores_y = data_frame[y_label]
 	numero_valores = len(valores_y)
@@ -172,7 +187,11 @@ def min_quad(data_frame, y_label, aprox_id, gap, grafico):
 	solucao = np.linalg.solve(ma, vb)
 	print("SOLUÇÃO: ", solucao)
 	ffinal = funcoes_aprox[aprox_id]
-	ffinal(valores_x, valores_y, solucao, gap, grafico)
+	aprox = ffinal(valores_x, valores_y, solucao, gap, grafico)
+	res = residuo(valores_y, aprox)
+	pt_write = open(grafico.replace('pdf', 'res'), 'w')
+	pt_write.write(str(res))
+	pt_write.close()
 
 if __name__=='__main__':
 	data_frame = base.carregar_base_individual(argv[1], argv[4], argv[5])
