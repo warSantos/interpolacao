@@ -38,23 +38,6 @@ def parab_aprox(valores_x, valores_y, solucao, gap, grafico):
 	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
 	return res
 
-# Funções para calcular a aproximação parabólica inversa.
-# Função associada ao alfa1.
-def parabola_inv_a1(valor):
-	return mt.pow((190 - valor), 2)
-# Função associada ao alfa1.
-def parabola_inv_a2(valor):
-	return 1
-# Função parabólica aproximada com coeficientes.
-def parab_inv_aprox(valores_x, valores_y, solucao, gap, grafico):
-	
-	res = list()
-	for x in valores_x:
-		v = (solucao[0][0] * mt.pow((190 - x), 2) + solucao[1][0])
-		res.append(v)
-	gfc.distribuicao_aprox(valores_x, valores_y, res, gap, grafico)
-	return res
-
 # Funções para calcular polinômios de grau 2: ax2 + bx + c, a,b,c == alfas(1,2,3).
 def coeficiente_a(valor):
 	return mt.pow(valor, 2)
@@ -110,7 +93,6 @@ def polinomio_g3(valores_x, valores_y, solucao, gap, grafico):
 # [1]: funções de calculo com parábola.
 funcoes = [[funcao_reta_a1, funcao_reta_a2], \
 	[parabola_a1, parabola_a2],
-	[parabola_inv_a1, parabola_inv_a2],
 	[coeficiente_a, coeficiente_b, coeficiente_c],
 	[coeficiente_d, coeficiente_a, coeficiente_b, coeficiente_c]]
 
@@ -120,7 +102,6 @@ funcoes = [[funcao_reta_a1, funcao_reta_a2], \
 
 funcoes_aprox = [reta_aprox,\
 	parab_aprox,
-	parab_inv_aprox,
 	polinomio_g2,
 	polinomio_g3]
 
