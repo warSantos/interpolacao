@@ -7,14 +7,17 @@
 # argv[7]: Gap para o salto no xlabel (defautl 365).
 
 import base
+import math as mt
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sys import argv, exit
 
-def distribuicao(data_frame, label_x, label_y, gap=364):
+def distribuicao(data_frame, label_x, label_y, datas, gap=364):
 	plt.style.use('ggplot')
 	y_range = data_frame[label_y]
+	pos_y = max(y_range)
+	print(pos_y)
 	len_y = len(y_range)
 	x_range = ''
 	if label_x == 'Date':	
@@ -23,7 +26,11 @@ def distribuicao(data_frame, label_x, label_y, gap=364):
 		x_range = data_frame[label_x]
 	#data_frame.plot.scatter(x=x_range, y=label_y)
 	plt.xticks(np.arange(1, len_y, step=gap))
-	plt.scatter(x_range, y_range, s=2000/len_y)
+	plt.xlabel('Período em dias')
+	plt.ylabel('Temperatura em C°')
+	plt.scatter(x_range, y_range, s=3000/len_y, label="Distrib.")
+	plt.legend(loc='best')
+	plt.text(5, pos_y, datas[0]+' á '+datas[1])
 	plt.show()
 	plt.close()
 
@@ -50,7 +57,8 @@ if __name__=='__main__':
 	data_sup = data_inf[data_inf['Date'] <= argv[6]]
 	cidade = data_sup[data_sup['Location'] == argv[2]]
 
-	if len(argv) <= 7:	
-		distribuicao(cidade, argv[3], argv[4])
+	if len(argv) <= 7:
+		distribuicao(cidade, argv[3], argv[4], [argv[5], argv[6]])
 	else:
-		distribuicao(cidade, argv[3], argv[4], float(argv[7]))
+		distribuicao(cidade, argv[3], argv[4], [argv[5], argv[6]], \
+			float(argv[7]))
