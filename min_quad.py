@@ -171,11 +171,11 @@ def min_quad(data_frame, y_label, aprox_id, gap, grafico):
 	aprox = ffinal(valores_x, valores_y, solucao, gap, grafico)
 	res = residuo(valores_y, aprox)
 	pt_write = open(grafico.replace('pdf', 'res'), 'w')
-	pt_write.write(str(res))
+	pt_write.write(str(res)+'\n')
 	pt_write.close()
 
 if __name__=='__main__':
 	data_frame = base.carregar_base_individual(argv[1], argv[4], argv[5])
 	grafico = 'resultados/'+argv[1].split('/')[-1].replace('.csv','')+\
-		'_'+argv[2]+'_'+argv[3]+'.pdf'
+		'_'+argv[2]+'_'+argv[4]+'_'+argv[5]+'_'+argv[3]+'.pdf'
 	min_quad(data_frame, argv[2], int(argv[3]), int(argv[6]), grafico)
