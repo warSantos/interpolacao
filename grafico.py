@@ -25,12 +25,13 @@ def distribuicao(data_frame, label_x, label_y, datas, gap=364):
 	else:
 		x_range = data_frame[label_x]
 	#data_frame.plot.scatter(x=x_range, y=label_y)
-	plt.xticks(np.arange(1, len_y, step=gap))
-	plt.xlabel('Período em dias')
-	plt.ylabel('Temperatura em C°')
-	plt.scatter(x_range, y_range, s=3000/len_y, label="Distrib.")
-	plt.legend(loc='best')
-	plt.text(5, pos_y, datas[0]+' á '+datas[1])
+	plt.xticks(np.arange(1, len_y, step=gap), fontsize=26)
+	plt.yticks(fontsize=26)
+	plt.xlabel('Período em dias', fontsize=26)
+	plt.ylabel('Temperatura em C°', fontsize=26)
+	plt.scatter(x_range, y_range, s=10000/len_y, label="Distrib.")
+	plt.legend(loc='best',  fontsize=26)
+	plt.text(5, pos_y, datas[0]+' á '+datas[1], fontsize=26)
 	plt.show()
 	plt.close()
 
@@ -38,12 +39,13 @@ def distribuicao_aprox(x_valores, y_valores, aproximacao, gap=30,\
 	grafico='grafico.pdf'):
 	
 	plt.style.use('ggplot')
-	plt.xlabel('Período em dias')
-	plt.ylabel('Temperatura em C°')
-	plt.xticks(np.arange(1, len(x_valores), step=gap))
-	plt.scatter(x_valores, y_valores, s=2.8, label="Distrib.")
+	plt.xlabel('Período em dias', fontsize=18)
+	plt.ylabel('Temperatura em C°', fontsize=18)
+	plt.xticks(np.arange(1, len(x_valores), step=gap), fontsize=12)
+	plt.yticks(fontsize=12)
+	plt.scatter(x_valores, y_valores, s=3.8, label="Distrib.")
 	plt.plot(aproximacao, 'blue', label="Aprox.")
-	plt.legend(loc='best')
+	plt.legend(loc='best', fontsize=18)
 	#plt.show()
 	plt.savefig(grafico, format='pdf')
 	plt.close()
