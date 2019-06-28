@@ -50,6 +50,33 @@ def distribuicao_aprox(x_valores, y_valores, aproximacao, gap=30,\
 	plt.savefig(grafico, format='pdf')
 	plt.close()
 
+def varios_plots(aprox_anos, gap=30, grafico='4grafico.pdf'):
+	
+	fig, axs = plt.subplots(2,2)
+	i = 0
+	j = 0
+	cont = 0
+	while i < 2:
+		j = 0
+		while j < 2:
+			plt.sca(axs[i, j])
+			plt.xticks(np.arange(1, len(aprox_anos[cont][0]), step=gap), \
+				fontsize=12)
+			plt.xlabel('Período em dias', fontsize=18)
+			plt.ylabel('Temperatura em C°', fontsize=18)
+			plt.yticks(fontsize=12)
+			# Plotando distribuição
+			axs[i, j].scatter(aprox_anos[cont][0], aprox_anos[cont][2], \
+				s=3.8, label="Distrib.")
+			# Plotando aproximação
+			axs[i, j].plot(aprox_anos[cont][1], 'blue', label="Aprox.")
+			plt.legend(loc='best', fontsize=18)
+			j += 1
+			cont += 1
+		i += 1
+	#plt.show()
+	#plt.savefig(grafico, format='pdf')
+
 if __name__=='__main__':
 	
 	data_frame = base.carregar_base(argv[1], base.colunas)
